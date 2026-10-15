@@ -19,6 +19,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 ROOT_URLCONF = "garba.urls"
 TEMPLATES = [{
@@ -35,9 +36,11 @@ DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DI
 LANGUAGE_CODE = "en-in"
 TIME_ZONE = "Asia/Kolkata"
 USE_TZ = True
-STATIC_URL = "static/"
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 LOGIN_URL = "/login/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
