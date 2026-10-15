@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+{% block title %}Matches — Dandiya Delight{% endblock %}
+{% block content %}
+<div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-heart"/></svg></div><div><h1>My Matches</h1><p>Your matches and requests, all in one place.</p></div></div>
+
+<div class="sech" style="margin-top:6px"><svg class="ic"><use href="#i-heart"/></svg>Matches</div>
+{% for m in matches %}
+  <div class="card item"><div class="who"><div class="avatar">{% if m.profile.photo %}<img src="{{ m.profile.photo.url }}" alt="">{% else %}<span>{{ m.profile.name|first|upper }}</span>{% endif %}</div>
+    <div><b>{{ m.profile.name }}, {{ m.profile.age }}</b><div class="muted loc"><svg class="ic"><use href="#i-pin"/></svg> {{ m.profile.city }} · <svg class="ic"><use href="#i-phone"/></svg> {{ m.phone }}</div></div></div>
+    <a class="btn wa sm" href="{{ m.wa }}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-wa"/></svg> Chat on WhatsApp</a></div>
+{% empty %}<p class="muted">No matches yet.</p>{% endfor %}
+
+<div class="sech"><svg class="ic"><use href="#i-inbox"/></svg>Interests received</div>
+{% for i in received %}
+  <div class="card item"><div class="who"><div class="avatar">{% if i.sender.profile.photo %}<img src="{{ i.sender.profile.photo.url }}" alt="">{% else %}<span>{{ i.sender.profile.name|first|upper }}</span>{% endif %}</div>
+    <div><a href="{% url 'profile_detail' i.sender_id %}"><b>{{ i.sender.profile.name }}, {{ i.sender.profile.age }}</b></a><div class="muted loc"><svg class="ic"><use href="#i-pin"/></svg> {{ i.sender.profile.city }}</div></div></div>
+    <div class="btnrow">
+      <form method="post" action="{% url 'respond' i.pk 'accept' %}">{% csrf_token %}<button class="btn ok sm"><svg class="ic"><use href="#i-check"/></svg> Accept</button></form>
+      <form method="post" action="{% url 'respond' i.pk 'decline' %}">{% csrf_token %}<button class="btn alt sm"><svg class="ic"><use href="#i-x"/></svg> Decline</button></form>
+    </div></div>
+{% empty %}<p class="muted">Nothing here yet.</p>{% endfor %}
+
+<div class="sech"><svg class="ic"><use href="#i-clock"/></svg>Interests sent (pending)</div>
+{% for i in sent %}
+  <div class="card item"><a href="{% url 'profile_detail' i.receiver_id %}"><b>{{ i.receiver.profile.name }}</b></a><span class="tag gold">Awaiting reply</span></div>
+{% empty %}<p class="muted">Nothing here yet.</p>{% endfor %}
+{% endblock %}

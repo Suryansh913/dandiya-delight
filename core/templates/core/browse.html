@@ -1,0 +1,76 @@
+{% extends "core/base.html" %}
+{% block title %}Partners — Dandiya Delight{% endblock %}
+{% block content %}
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+/* ===== Garba profile card: photo on top, details below (maroon) ===== */
+.pgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),310px));gap:24px;justify-content:center}
+.gcard{position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,#6d1233,#4a0b24);border-radius:24px;overflow:hidden;border:2px solid #d4a017;box-shadow:0 12px 28px rgba(74,11,36,.38);transition:transform .25s,box-shadow .25s;color:#f6dcc8}
+.gcard:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(109,18,51,.5)}
+.gc-link{display:block;flex:1;color:inherit;text-decoration:none}
+.gc-photo{position:relative;height:230px;overflow:hidden;background:#3a0a1d}
+.gc-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;transition:transform .5s}
+.gcard:hover .gc-photo img{transform:scale(1.06)}
+.gc-photo::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(58,10,29,.95) 0,rgba(58,10,29,.4) 40%,transparent 70%)}
+.pc-ph{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 38%,#ff7b00,#e91e63 55%,#4a0b24)}
+.pc-ph .pc-m{position:absolute;width:125%;height:125%;color:#ffe3a3;opacity:.38;animation:spin 80s linear infinite}
+.pc-ph span{position:relative;font:400 5rem 'Anton',Impact,sans-serif;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.35)}
+.ctoran{position:absolute;top:0;left:0;width:100%;height:18px;z-index:3}
+.pc-stick{position:absolute;z-index:3;width:10px;height:62px;top:24px;filter:drop-shadow(0 4px 5px rgba(0,0,0,.5))}
+.pc-stick.a{left:12px;transform:rotate(-28deg)}.pc-stick.b{left:27px;transform:rotate(28deg)}
+.gc-name{position:absolute;z-index:2;left:16px;right:76px;bottom:14px;color:#fff}
+.gc-name h3{font:400 1.7rem/1.05 'Anton','Bebas Neue',Impact,'Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.01em;margin:0 0 8px;color:#fff;overflow-wrap:anywhere;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.gc-name small{font-size:.62em;color:#f3d3b8;opacity:.9}
+.gc-loc{display:inline-flex;gap:6px;align-items:center;background:#fff;color:#4a0b24;border-radius:999px;padding:5px 12px;font:700 .72rem Poppins,sans-serif;text-transform:uppercase;letter-spacing:.04em}
+.gc-loc .ic{color:#e91e63}
+.gc-go{position:absolute;z-index:3;right:14px;bottom:14px;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--pink),var(--saffron));box-shadow:0 6px 18px rgba(0,0,0,.4);border:2px solid #fff;transition:transform .25s}
+.gc-go .ic{width:22px;height:22px;transform:rotate(-45deg)}.gcard:hover .gc-go{transform:scale(1.1) rotate(8deg)}
+.gc-body{position:relative;overflow:hidden;padding:12px 16px 10px}
+.gc-m{position:absolute;right:-40px;bottom:-40px;width:150px;height:150px;color:#ffb300;opacity:.09;pointer-events:none}
+.gc-label{font:400 .85rem 'Anton',Impact,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#ffb300;margin-bottom:3px}
+.gc-bio{position:relative;margin:0 0 9px;font-size:.88rem;line-height:1.4;color:#f6dcc8;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gc-tags{position:relative;display:flex;flex-wrap:wrap;gap:6px}
+.gp{display:inline-flex;gap:5px;align-items:center;padding:5px 11px;border-radius:999px;font-size:.66rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;background:rgba(255,255,255,.12);color:#f6dcc8}
+.gp.hl{background:rgba(45,212,191,.18);color:#5eead4}.gp.hl .ic{fill:currentColor;width:.95em;height:.95em}
+.gp.o{background:rgba(255,179,0,.2);color:#ffd166}.gp.p{background:rgba(255,122,168,.2);color:#ffb3cc}
+.gc-act{padding:0 16px 14px}.gc-act form{margin:0}.gc-act .btn{width:100%;padding:10px 18px;font-size:.88rem}
+.gc-act .tag{display:flex;justify-content:center;width:100%;padding:9px;margin:0;background:rgba(255,255,255,.95)}
+.gc-act details summary{color:#f3d3b8}.gc-act input{background:rgba(255,255,255,.95);color:#2a1420}
+.gcard.big{max-width:420px;margin:0 auto}.gcard.big .gc-photo{height:340px}.gcard.big .gc-go{display:none}
+.gcard.big .gc-bio{display:block;-webkit-line-clamp:unset}.gcard.big .gc-name{right:16px}
+.gc-act .row2{display:flex;gap:8px}.gc-act .row2>*{flex:1;min-width:0}
+.gc-act .btn{width:100%;padding:10px 6px;font-size:.82rem;white-space:nowrap}
+.btn.wa{background:linear-gradient(135deg,#25d366,#128c7e);box-shadow:0 6px 16px rgba(18,140,126,.45)}
+.gc-act .tag{font-size:.74rem;white-space:nowrap}
+@media(max-width:480px){.gc-photo{height:220px}.gcard.big .gc-photo{height:300px}}
+</style>
+<div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-users"/></svg></div><div><h1>Find your partner</h1><p>Apply filters and send interest to the people you like.</p></div></div>
+<form class="card filters" method="get">
+  <div class="row">
+    <div><label>Gender</label><select name="gender"><option value="">All</option>
+      {% for k,v in GENDER %}<option value="{{ k }}" {% if g == k %}selected{% endif %}>{{ v }}</option>{% endfor %}</select></div>
+    <div><label>City</label><input name="city" value="{{ city }}" placeholder="e.g. Ahmedabad"></div>
+    <div><label>Level</label><select name="level"><option value="">All</option>
+      {% for k,v in LEVEL %}<option value="{{ k }}" {% if q.level == k %}selected{% endif %}>{{ v }}</option>{% endfor %}</select></div>
+    <div><label>Style</label><select name="style"><option value="">All</option>
+      {% for k,v in STYLE %}<option value="{{ k }}" {% if q.style == k %}selected{% endif %}>{{ v }}</option>{% endfor %}</select></div>
+    <div><label>Min age</label><input name="age_min" value="{{ q.age_min }}" inputmode="numeric"></div>
+    <div><label>Max age</label><input name="age_max" value="{{ q.age_max }}" inputmode="numeric"></div>
+    <button class="btn" style="margin-bottom:12px"><svg class="ic"><use href="#i-filter"/></svg> Filter</button>
+  </div>
+</form>
+<div class="pgrid">
+{% for p in profiles %}
+  <article class="gcard">
+    <a class="gc-link" href="{% url 'profile_detail' p.user_id %}">{% include "core/_card.html" %}</a>
+    <div class="gc-act"><div class="row2">
+    {% if p.istatus == "accepted" %}<span class="tag alt"><svg class="ic" width="18" height="18"><use href="#i-check"/></svg>Matched</span>
+    {% elif p.istatus == "pending" %}<span class="tag gold"><svg class="ic" width="18" height="18"><use href="#i-clock"/></svg>Interest sent</span>
+    {% elif p.istatus == "declined" %}<span class="tag"><svg class="ic" width="18" height="18"><use href="#i-x"/></svg>Declined</span>
+    {% else %}<form method="post" action="{% url 'send_interest' p.user_id %}">{% csrf_token %}<button class="btn"><svg class="ic" width="18" height="18"><use href="#i-heart"/></svg> Interest</button></form>{% endif %}
+    {% if p.allow_whatsapp %}<a class="btn wa" href="{% url 'chat' p.user_id %}" target="_blank" rel="noopener"><svg class="ic" width="18" height="18"><use href="#i-wa"/></svg> WhatsApp</a>{% endif %}
+    </div></div>
+  </article>
+{% empty %}<p class="muted">No partners found. Try changing the filters.</p>{% endfor %}
+</div>
+{% endblock %}

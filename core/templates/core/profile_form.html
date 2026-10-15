@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% block title %}My Profile — Dandiya Delight{% endblock %}
+{% block content %}
+<div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-user"/></svg></div><div><h1>My Dandiya Profile</h1><p>A clear photo and accurate details get you more matches.</p></div></div>
+<form class="card" method="post" enctype="multipart/form-data">{% csrf_token %}
+  <div class="formgrid">
+  {% for f in form %}
+    {% if f.name == "allow_whatsapp" %}
+    <div class="full">
+      <label style="display:flex;gap:10px;align-items:center;cursor:pointer;color:var(--ink);font-size:.92rem">
+        <input type="checkbox" name="allow_whatsapp" id="id_allow_whatsapp" {% if f.value %}checked{% endif %} style="width:auto;margin:0"> {{ f.label }}
+      </label>
+      <p class="muted" style="font-size:.78rem;margin:4px 0 14px">If turned off, the WhatsApp button won't appear on your card.</p>
+    </div>
+    {% else %}
+    <div class="{% if f.name == 'bio' or f.name == 'photo' %}full{% endif %}"><label>{{ f.label }}</label>{{ f }}{{ f.errors }}</div>
+    {% endif %}
+  {% endfor %}
+  </div>
+  <button class="btn">Save profile <svg class="ic"><use href="#i-check"/></svg></button>
+</form>
+{% endblock %}

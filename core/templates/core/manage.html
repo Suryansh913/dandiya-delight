@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% block title %}Verify Panel — Dandiya Delight{% endblock %}
+{% block content %}
+<div class="ptitle"><div class="ico"><svg class="ic"><use href="#i-shield"/></svg></div><div><h1>Verification Panel</h1><p>Click "Send code" &mdash; WhatsApp opens with the message ready, just press Send. This page refreshes every 10 seconds.</p></div></div>
+{% for r in rows %}
+  <form class="card" method="post" action="{% url 'send_code' r.pc.pk %}">{% csrf_token %}
+    <div class="item"><div><b>{{ r.pc.name }}</b> <span class="muted">· {{ r.pc.phone }} · {{ r.pc.created|timesince }} ago</span></div>
+    {% if r.pc.code %}<span class="tag alt"><svg class="ic"><use href="#i-check"/></svg>Code sent</span>{% else %}<span class="tag gold"><svg class="ic"><use href="#i-clock"/></svg>Pending</span>{% endif %}</div>
+    <div class="row" style="margin-top:10px">
+      <input name="code" value="{{ r.code }}" maxlength="8" required inputmode="numeric" style="margin-bottom:0">
+      <button class="btn ok"><svg class="ic"><use href="#i-wa"/></svg> Send code via WhatsApp</button>
+    </div>
+  </form>
+{% empty %}<p class="muted">No pending requests right now.</p>{% endfor %}
+<script>setInterval(()=>{const a=document.activeElement;if(!a||a.tagName!=="INPUT")location.reload()},10000)</script>
+{% endblock %}

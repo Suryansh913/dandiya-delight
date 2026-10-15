@@ -1,0 +1,21 @@
+<div class="gc-photo">
+  {% if p.photo %}<img src="{{ p.photo.url }}" alt="{{ p.name }}" loading="lazy">
+  {% else %}<div class="pc-ph"><svg class="pc-m" width="300" height="300" aria-hidden="true"><use href="#mandala"/></svg><span>{{ p.name|first|upper }}</span></div>{% endif %}
+  <svg class="ctoran" width="200" height="20" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 L25,0 L12.5,14Z" fill="#e91e63"/><path d="M25,0 L50,0 L37.5,14Z" fill="#ffb300"/><path d="M50,0 L75,0 L62.5,14Z" fill="#0f9d8a"/><path d="M75,0 L100,0 L87.5,14Z" fill="#ff6f00"/><path d="M100,0 L125,0 L112.5,14Z" fill="#7b1fa2"/><path d="M125,0 L150,0 L137.5,14Z" fill="#e91e63"/><path d="M150,0 L175,0 L162.5,14Z" fill="#ffb300"/><path d="M175,0 L200,0 L187.5,14Z" fill="#0f9d8a"/></svg>
+  <svg class="pc-stick a" width="11" height="74" aria-hidden="true"><use href="#stick"/></svg><svg class="pc-stick b" width="11" height="74" aria-hidden="true"><use href="#stick"/></svg>
+  <div class="gc-name">
+    <h3>{{ p.name }}<small>, {{ p.age }}</small></h3>
+    <span class="gc-loc"><svg class="ic" width="18" height="18"><use href="#i-pin"/></svg>{{ p.city }}</span>
+  </div>
+  <span class="gc-go"><svg class="ic" width="18" height="18"><use href="#i-arrow"/></svg></span>
+</div>
+<div class="gc-body">
+  <svg class="gc-m" width="170" height="170" aria-hidden="true"><use href="#mandala"/></svg>
+  <div class="gc-label">About me</div>
+  <p class="gc-bio">{% if p.bio %}{{ p.bio }}{% else %}Garba lover looking for a dandiya partner!{% endif %}</p>
+  <div class="gc-tags">
+    <span class="gp hl"><svg class="ic" width="18" height="18"><use href="#i-star"/></svg>{{ p.get_level_display }}</span>
+    <span class="gp o">{{ p.get_style_display }}</span>
+    <span class="gp">Partner: {{ p.get_looking_for_display }}</span>
+  </div>
+</div>

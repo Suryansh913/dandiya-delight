@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+{% block title %}Verify — Dandiya Delight{% endblock %}
+{% block content %}
+<div class="auth">
+  <div class="auth-side">
+    <svg class="bgm" aria-hidden="true"><use href="#mandala"/></svg>
+    <h2>One more step</h2>
+    <p>Enter the code you received on WhatsApp to join the garba.</p>
+    <ul><li><svg class="ic"><use href="#i-clock"/></svg>Code is valid for 15 minutes</li><li><svg class="ic"><use href="#i-shield"/></svg>Never share your code</li></ul>
+  </div>
+  <div class="auth-form">
+    <h2>Verify your number</h2>
+    {% if sent %}
+      <div class="msg success"><svg class="ic"><use href="#i-check"/></svg>A code was sent to {{ phone }} on WhatsApp.</div>
+    {% else %}
+      <div class="msg"><svg class="ic"><use href="#i-clock"/></svg>We're sending a code to <b>{{ phone }}</b> on WhatsApp. Please wait a moment.</div>
+    {% endif %}
+    <form method="post">{% csrf_token %}
+      <label>Verification code</label>
+      <input name="code" required maxlength="8" inputmode="numeric" autocomplete="one-time-code" placeholder="••••••" style="font-size:1.3rem;letter-spacing:.3em;text-align:center">
+      <button class="btn" style="width:100%">Verify <svg class="ic"><use href="#i-check"/></svg></button>
+      <p class="muted" style="text-align:center;font-size:.85rem"><a href="{% url 'verify' %}">Refresh</a> · <a href="{% url 'login' %}">Change number</a></p>
+    </form>
+  </div>
+</div>
+{% if not sent %}<script>setTimeout(()=>{if(!document.querySelector('input[name=code]').value)location.reload()},8000)</script>{% endif %}
+{% endblock %}
