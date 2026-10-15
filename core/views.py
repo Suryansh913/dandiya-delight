@@ -2,7 +2,7 @@ from functools import wraps
 from urllib.parse import quote
 
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -32,18 +32,36 @@ def home(request):
 
 
 def login_view(request):
-    """Name + phone => logged in directly (no OTP / verification step)."""
+    """Phone + password. A new number creates the account with the chosen password."""
     if request.user.is_authenticated:
         return redirect("browse")
     if request.method == "POST":
         name = request.POST.get("name", "").strip()[:50]
         phone = normalize_phone(request.POST.get("phone"))
-        if not name or not phone:
-            messages.error(request, "Enter a valid name and phone number (10 digits, or with +country code).")
+        password = request.POST.get("password", "")
+        user = User.objects.filter(username=phone).first() if phone else None
+        if not phone:
+            messages.error(request, "Enter a valid phone number (10 digits, or with +country code).")
+        elif user is not None and user.has_usable_password():
+            # existing account -> check the password
+            auth_user = authenticate(request, username=phone, password=password)
+            if auth_user is None:
+                messages.error(request, "Incorrect phone number or password.")
+            else:
+                login(request, auth_user)
+                if not Profile.objects.filter(user=auth_user).exists():
+                    return redirect("profile_edit")
+                return redirect("browse")
+        elif len(password) < 6:
+            messages.error(request, "Password must be at least 6 characters.")
+        elif user is None and not name:
+            messages.error(request, "New number? Please enter your name too.")
         else:
-            user, created = User.objects.get_or_create(username=phone, defaults={"first_name": name})
-            if created:
-                user.set_unusable_password()
+            if user is None:
+                user = User.objects.create_user(username=phone, password=password, first_name=name)
+            else:
+                # old account that never had a password: the first password entered is set
+                user.set_password(password)
                 user.save()
             login(request, user)
             if not Profile.objects.filter(user=user).exists():
