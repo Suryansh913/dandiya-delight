@@ -1,6 +1,6 @@
 # Dandiya Delight (Django)
 
-Find your garba / dandiya partner. Phone verification through WhatsApp, profile cards,
+Find your garba / dandiya partner. Quick login with WhatsApp number, profile cards,
 interest requests, matches and one-tap WhatsApp chat.
 
 ## Setup
@@ -13,13 +13,9 @@ Open http://127.0.0.1:8000
 
 > Upgrading from an older copy? Delete the old `db.sqlite3` first (the database schema changed).
 
-## How phone verification works (no API needed)
-1. A user enters their name and WhatsApp number, then waits on the verify page.
-2. You log in at `/admin/login/` and open `/manage/` (Verify Panel). The pending number appears there.
-3. Click **Send code via WhatsApp**. WhatsApp opens with the message ready; press Send.
-4. The user types the same code, is verified, and creates their profile.
-
-Codes are valid for 15 minutes with a maximum of 5 wrong attempts. `/manage/` is staff-only.
+## Login
+Users enter their name and WhatsApp number and are logged in directly (no OTP / verification step).
+If they don't have a profile yet, they are sent to create one.
 
 ## WhatsApp chat button
 Every profile card has a green **WhatsApp** button that opens a chat with a ready-made message.

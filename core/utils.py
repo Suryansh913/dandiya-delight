@@ -1,5 +1,4 @@
 import re
-import secrets
 
 
 def normalize_phone(raw):
@@ -9,7 +8,3 @@ def normalize_phone(raw):
     if re.fullmatch(r"[6-9]\d{9}", s):
         s = "+91" + s
     return s if re.fullmatch(r"\+\d{10,14}", s) else None
-
-
-def make_code():
-    return f"{secrets.randbelow(10**6):06d}"

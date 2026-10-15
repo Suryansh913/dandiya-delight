@@ -2,25 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class PhoneCheck(models.Model):
-    """The admin sets a code for a phone number; the user types the same code to verify."""
-    phone = models.CharField(max_length=20, db_index=True)
-    name = models.CharField(max_length=50)
-    code = models.CharField(max_length=8, blank=True)
-    code_set_at = models.DateTimeField(null=True, blank=True)
-    attempts = models.PositiveSmallIntegerField(default=0)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        from django.utils import timezone
-        if self.code and not self.code_set_at:
-            self.code_set_at = timezone.now()
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.name} {self.phone}"
-
-
 class Profile(models.Model):
     GENDER = [("M", "Male"), ("F", "Female"), ("O", "Other")]
     LEVEL = [("beginner", "Beginner"), ("intermediate", "Intermediate"), ("pro", "Pro")]

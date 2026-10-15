@@ -1,0 +1,72 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block body %}
+<section class="hero">
+  <svg class="toran" viewBox="0 0 1200 40" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><rect width="1200" height="3" fill="#ffb300"/><path d="M0,2 L50,2 L25,36Z" fill="#e91e63"/><path d="M50,2 L100,2 L75,36Z" fill="#ffb300"/><path d="M100,2 L150,2 L125,36Z" fill="#0f9d8a"/><path d="M150,2 L200,2 L175,36Z" fill="#ff6f00"/><path d="M200,2 L250,2 L225,36Z" fill="#7b1fa2"/><path d="M250,2 L300,2 L275,36Z" fill="#e91e63"/><path d="M300,2 L350,2 L325,36Z" fill="#ffb300"/><path d="M350,2 L400,2 L375,36Z" fill="#0f9d8a"/><path d="M400,2 L450,2 L425,36Z" fill="#ff6f00"/><path d="M450,2 L500,2 L475,36Z" fill="#7b1fa2"/><path d="M500,2 L550,2 L525,36Z" fill="#e91e63"/><path d="M550,2 L600,2 L575,36Z" fill="#ffb300"/><path d="M600,2 L650,2 L625,36Z" fill="#0f9d8a"/><path d="M650,2 L700,2 L675,36Z" fill="#ff6f00"/><path d="M700,2 L750,2 L725,36Z" fill="#7b1fa2"/><path d="M750,2 L800,2 L775,36Z" fill="#e91e63"/><path d="M800,2 L850,2 L825,36Z" fill="#ffb300"/><path d="M850,2 L900,2 L875,36Z" fill="#0f9d8a"/><path d="M900,2 L950,2 L925,36Z" fill="#ff6f00"/><path d="M950,2 L1000,2 L975,36Z" fill="#7b1fa2"/><path d="M1000,2 L1050,2 L1025,36Z" fill="#e91e63"/><path d="M1050,2 L1100,2 L1075,36Z" fill="#ffb300"/><path d="M1100,2 L1150,2 L1125,36Z" fill="#0f9d8a"/><path d="M1150,2 L1200,2 L1175,36Z" fill="#ff6f00"/></svg>
+  <svg class="bgm" aria-hidden="true"><use href="#mandala"/></svg>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge"><svg class="ic"><use href="#i-diya"/></svg> Navratri Special · Garba &amp; Dandiya</span>
+      <h1>Find your perfect <span class="grad">dandiya partner</span> this Navratri</h1>
+      <p class="lead">Verified profiles, filters by city and dance level, and a safe, simple way to say hello &mdash; chat on WhatsApp in one tap. Completely free.</p>
+      <div class="cta">
+        <a class="btn" href="{% url 'login' %}">Get started <svg class="ic"><use href="#i-arrow"/></svg></a>
+        <a class="btn ghost" href="#how">How it works</a>
+      </div>
+      <div class="stats">
+        <div><svg class="ic"><use href="#i-shield"/></svg>WhatsApp<br>verified</div>
+        <div><svg class="ic"><use href="#i-wa"/></svg>One-tap<br>chat</div>
+        <div><svg class="ic"><use href="#i-flag"/></svg>Report &amp;<br>safety</div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg class="mandala" aria-hidden="true"><use href="#mandala"/></svg>
+      <svg class="stick s1" aria-hidden="true"><use href="#stick"/></svg>
+      <svg class="stick s2" aria-hidden="true"><use href="#stick"/></svg>
+      <div class="photo-frame">
+        <svg class="fb" viewBox="0 0 250 420" aria-hidden="true"><defs><radialGradient id="glow" cx=".5" cy=".42" r=".6"><stop offset="0" stop-color="#ffd166"/><stop offset=".45" stop-color="#ff7b00"/><stop offset="1" stop-color="#7a1646"/></radialGradient></defs><rect width="250" height="420" fill="url(#glow)"/><g style="color:#fff3d6"><use href="#mandala" x="-40" y="40" width="330" height="330" opacity=".55"/></g><g transform="translate(125 330)"><path d="M-60 0h120c0 28-24 42-60 42s-60-14-60-42z" fill="#e91e63"/><path d="M0-70c18 22 26 34 26 50a26 26 0 0 1-52 0c0-16 8-28 26-50z" fill="#fff3d6"/></g></svg>
+        <img src="{% static 'core/hero.png' %}" alt="Garba dance with diyas" onerror="this.remove()">
+      </div>
+      <div class="chip c1"><svg class="ic"><use href="#i-shield"/></svg>Verified profiles</div>
+      <div class="chip c2"><svg class="ic"><use href="#i-heart"/></svg>It's a match!</div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 Q360 70 720 30 T1440 30 V60 H0Z" fill="var(--bg)"/></svg>
+</section>
+
+<div class="styles"><div class="wrap">
+  <span><svg class="ic"><use href="#i-star"/></svg>Garba</span><span><svg class="ic"><use href="#i-star"/></svg>Dandiya Raas</span>
+  <span><svg class="ic"><use href="#i-star"/></svg>Dodhiyu</span><span><svg class="ic"><use href="#i-star"/></svg>Hudo</span>
+</div></div>
+
+<section class="sec"><div class="wrap">
+  <h2>Why <span class="grad">Dandiya Delight</span>?</h2>
+  <p class="sub">A great partner makes garba unforgettable. We help you find the right one, safely.</p>
+  <div class="grid3">
+    <div class="feat"><div class="ico"><svg class="ic"><use href="#i-shield"/></svg></div><h3>WhatsApp verification</h3><p>Every number is verified, so you meet real people instead of fake profiles.</p></div>
+    <div class="feat"><div class="ico"><svg class="ic"><use href="#i-filter"/></svg></div><h3>Smart filters</h3><p>Filter by city, age, dance level and style to find your perfect match.</p></div>
+    <div class="feat"><div class="ico"><svg class="ic"><use href="#i-wa"/></svg></div><h3>One-tap WhatsApp chat</h3><p>Say hello instantly with a ready-made message. You decide who can chat with you.</p></div>
+    <div class="feat"><div class="ico"><svg class="ic"><use href="#i-pin"/></svg></div><h3>Partners in your city</h3><p>Meet garba lovers near you and plan your Navratri nights together.</p></div>
+    <div class="feat"><div class="ico"><svg class="ic"><use href="#i-music"/></svg></div><h3>Level &amp; style match</h3><p>Beginner or pro, find a dancer who matches your rhythm.</p></div>
+    <div class="feat"><div class="ico"><svg class="ic"><use href="#i-flag"/></svg></div><h3>Report &amp; safety</h3><p>See something off? Report a profile in one click and we will take action.</p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="how" style="padding-top:20px"><div class="wrap">
+  <h2>4 simple steps</h2>
+  <p class="sub">Your profile is ready in two minutes &mdash; then it's all garba.</p>
+  <div class="steps" style="margin-top:46px">
+    <div class="step"><h3>Verify your number</h3><p>Enter your name and WhatsApp number, then confirm with a code.</p></div>
+    <div class="step"><h3>Create your profile</h3><p>Add a photo, your city, dance level and style.</p></div>
+    <div class="step"><h3>Find a partner</h3><p>Use filters and send interest to the people you like.</p></div>
+    <div class="step"><h3>Match &amp; chat</h3><p>Tap the WhatsApp button and start talking.</p></div>
+  </div>
+</div></section>
+
+<section class="wrap"><div class="band">
+  <svg class="bgm" aria-hidden="true"><use href="#mandala"/></svg>
+  <h2>Don't dance alone this Navratri</h2>
+  <p>Join today and meet your dandiya partner.</p>
+  <a class="btn" href="{% url 'login' %}" style="position:relative">Join for free <svg class="ic"><use href="#i-arrow"/></svg></a>
+</div></section>
+{% endblock %}

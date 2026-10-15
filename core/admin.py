@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Interest, PhoneCheck, Profile, Report
+from .models import Interest, Profile, Report
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -9,4 +9,3 @@ class ProfileAdmin(admin.ModelAdmin):
 
 admin.site.register(Interest)
 admin.site.register(Report)
-admin.site.register(PhoneCheck)

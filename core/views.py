@@ -1,22 +1,17 @@
-import hmac
-from datetime import timedelta
 from functools import wraps
 from urllib.parse import quote
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from .forms import ProfileForm
-from .models import Interest, PhoneCheck, Profile, Report
-from .utils import make_code, normalize_phone
-
-staff_only = user_passes_test(lambda u: u.is_active and u.is_staff, login_url="/admin/login/")
+from .models import Interest, Profile, Report
+from .utils import normalize_phone
 
 
 def needs_profile(view):
@@ -37,7 +32,7 @@ def home(request):
 
 
 def login_view(request):
-    """Step 1: name + phone. The number shows up in the admin Verify Panel."""
+    """Name + phone => logged in directly (no OTP / verification step)."""
     if request.user.is_authenticated:
         return redirect("browse")
     if request.method == "POST":
@@ -45,71 +40,16 @@ def login_view(request):
         phone = normalize_phone(request.POST.get("phone"))
         if not name or not phone:
             messages.error(request, "Enter a valid name and phone number (10 digits, or with +country code).")
-        elif PhoneCheck.objects.filter(phone=phone, created__gt=timezone.now() - timedelta(seconds=30)).exists():
-            messages.error(request, "Please wait 30 seconds before trying again.")
         else:
-            PhoneCheck.objects.filter(phone=phone).delete()
-            PhoneCheck.objects.create(phone=phone, name=name)
-            request.session["pending"] = {"name": name, "phone": phone}
-            return redirect("verify")
+            user, created = User.objects.get_or_create(username=phone, defaults={"first_name": name})
+            if created:
+                user.set_unusable_password()
+                user.save()
+            login(request, user)
+            if not Profile.objects.filter(user=user).exists():
+                return redirect("profile_edit")
+            return redirect("browse")
     return render(request, "core/login.html")
-
-
-def verify_view(request):
-    """Step 2: the user types the code the admin sent on WhatsApp."""
-    pending = request.session.get("pending")
-    if not pending:
-        return redirect("login")
-    pc = PhoneCheck.objects.filter(phone=pending["phone"]).first()
-    if not pc:
-        return redirect("login")
-    if request.method == "POST":
-        code = request.POST.get("code", "").strip()
-        if not pc.code:
-            messages.error(request, "Your code hasn't been sent yet. Please wait a moment.")
-        elif (pc.code_set_at and timezone.now() - pc.code_set_at > timedelta(minutes=15)) or pc.attempts >= 5:
-            messages.error(request, "Code expired or too many wrong attempts. Please log in again.")
-            pc.delete()
-            return redirect("login")
-        else:
-            pc.attempts += 1
-            pc.save(update_fields=["attempts"])
-            if hmac.compare_digest(pc.code, code):
-                pc.delete()
-                user, created = User.objects.get_or_create(
-                    username=pending["phone"], defaults={"first_name": pending["name"]})
-                if created:
-                    user.set_unusable_password()
-                    user.save()
-                login(request, user)
-                request.session.pop("pending", None)
-                if not Profile.objects.filter(user=user).exists():
-                    return redirect("profile_edit")
-                return redirect("browse")
-            messages.error(request, "Incorrect code.")
-    return render(request, "core/verify.html", {"phone": pending["phone"], "sent": bool(pc.code)})
-
-
-@staff_only
-def manage(request):
-    """Admin: see pending numbers and send codes."""
-    pcs = PhoneCheck.objects.filter(created__gt=timezone.now() - timedelta(hours=1)).order_by("-created")
-    rows = [{"pc": p, "code": p.code or make_code()} for p in pcs]
-    return render(request, "core/manage.html", {"rows": rows})
-
-
-@staff_only
-@require_POST
-def send_code(request, pk):
-    pc = get_object_or_404(PhoneCheck, pk=pk)
-    code = "".join(ch for ch in request.POST.get("code", "") if ch.isdigit())
-    if not 4 <= len(code) <= 8:
-        messages.error(request, "The code must be 4 to 8 digits.")
-        return redirect("manage")
-    pc.code, pc.code_set_at, pc.attempts = code, timezone.now(), 0
-    pc.save()
-    text = f"Your Dandiya Delight verification code: {code}\nPlease don't share it with anyone."
-    return redirect(f"https://wa.me/{pc.phone.lstrip('+')}?text={quote(text)}")
 
 
 @require_POST

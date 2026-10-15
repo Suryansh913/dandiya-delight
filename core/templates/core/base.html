@@ -172,7 +172,6 @@ details summary{cursor:pointer;color:var(--muted);font-size:.85rem;margin-top:14
   {% if user.is_authenticated %}
     <a href="{% url 'browse' %}"><svg class="ic"><use href="#i-users"/></svg><span class="lbl">Partners</span></a>
     <a href="{% url 'inbox' %}"><svg class="ic"><use href="#i-heart"/></svg><span class="lbl">Matches</span></a>
-    {% if user.is_staff %}<a href="{% url 'manage' %}"><svg class="ic"><use href="#i-shield"/></svg><span class="lbl">Verify Panel</span></a>{% endif %}
     <a href="{% url 'profile_edit' %}"><svg class="ic"><use href="#i-user"/></svg><span class="lbl">Profile</span></a>
     <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button title="Logout"><svg class="ic"><use href="#i-logout"/></svg><span class="lbl">Logout</span></button></form>
   {% else %}
